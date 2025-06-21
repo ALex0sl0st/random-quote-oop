@@ -1,7 +1,4 @@
-import {
-  loadFavoriteQuotesFromLocalStorage,
-  getFavoriteQuotes,
-} from "./managers/favoriteQuotesManager.js";
+import { favorites } from "./classes/FavoriteQuotes.js";
 import {
   loadFromLocalStorage,
   LOCAL_STORAGE_KEYS,
@@ -14,7 +11,7 @@ function initializeApp({ quotes, starElement }) {
   let currentQuoteIndex = -1;
   let currentQuoteId = null;
 
-  loadFavoriteQuotesFromLocalStorage();
+  favorites.loadFromLocalStorage();
 
   const currentQuoteFromLocalStorage = loadFromLocalStorage(
     LOCAL_STORAGE_KEYS.CURRENT_QUOTE
@@ -29,9 +26,11 @@ function initializeApp({ quotes, starElement }) {
     currentQuoteIndex = getQuoteIndexById(quotes, currentQuoteId);
   }
 
-  getFavoriteQuotes().forEach((favoriteQuote) =>
-    displayFavoriteQuote(favoriteQuote, starElement, removeQuoteFromFavorites)
-  );
+  favorites
+    .getAll()
+    .forEach((favoriteQuote) =>
+      displayFavoriteQuote(favoriteQuote, starElement, removeQuoteFromFavorites)
+    );
 
   return {
     currentQuoteIndex,

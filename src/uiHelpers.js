@@ -1,5 +1,5 @@
 import { getCurrentQuoteId } from "./managers/quoteManager.js";
-import { isQuoteFavorite } from "./managers/favoriteQuotesManager.js";
+import { favorites } from "./classes/FavoriteQuotes.js";
 
 const favoriteQuotesContainerElement = document.getElementById(
   "favoriteQuotesContainer"
@@ -30,7 +30,7 @@ function updateStarView(isFavorite, element, updatingQuoteId) {
 function displayFavoriteQuote(quote, starElement, removeQuoteFromFavorites) {
   const { text, author, id } = quote;
 
-  const isFavorite = isQuoteFavorite(id);
+  const isFavorite = favorites.isQuoteFavorite(id);
 
   const favoriteQuoteCard = document.createElement("div");
   const quoteAuthor = author ? author : "No author";
@@ -63,7 +63,7 @@ function displayCurrentQuote(quote, starElement) {
 
   currentQuoteContainerElement.dataset.currentQuoteId = id;
 
-  setStarView(isQuoteFavorite(id), starElement);
+  setStarView(favorites.isQuoteFavorite(id), starElement);
 }
 
 export {

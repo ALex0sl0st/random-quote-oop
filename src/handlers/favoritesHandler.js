@@ -1,13 +1,9 @@
 import { updateStarView, displayFavoriteQuote } from "../uiHelpers.js";
 import { getQuoteById, getCurrentQuoteId } from "../managers/quoteManager.js";
-import {
-  storeFavoriteQuote,
-  unstoreFavoriteQuote,
-  isQuoteFavorite,
-} from "../managers/favoriteQuotesManager.js";
+import { favorites } from "../classes/FavoriteQuotes.js";
 
 function addQuoteToFavorites(quote, starElement) {
-  storeFavoriteQuote(quote);
+  favorites.add(quote);
 
   displayFavoriteQuote(quote, starElement, removeQuoteFromFavorites);
 }
@@ -18,16 +14,16 @@ function removeQuoteFromFavorites(quote, starElement) {
   const cardElement = document.getElementById(`${quoteId}`);
   cardElement && cardElement.remove();
 
-  unstoreFavoriteQuote(quote.id);
+  favorites.remove(quote.id);
 
-  updateStarView(isQuoteFavorite(quoteId), starElement, quoteId);
+  updateStarView(favorites.isQuoteFavorite(quoteId), starElement, quoteId);
 }
 
 function toggleFavoriteQuote(quotes, starElement) {
   const currentQuoteId = getCurrentQuoteId();
   if (currentQuoteId && currentQuoteId !== "null") {
     const currentQuote = getQuoteById(quotes, currentQuoteId);
-    if (!isQuoteFavorite(currentQuoteId)) {
+    if (!favorites.isQuoteFavorite(currentQuoteId)) {
       addQuoteToFavorites(currentQuote, starElement);
     } else {
       removeQuoteFromFavorites(currentQuote, starElement);

@@ -4,7 +4,7 @@ import {
   LOCAL_STORAGE_KEYS,
 } from "./utils/localStorageUtils.js";
 import { getQuoteIndexById } from "./managers/quoteManager.js";
-import { displayCurrentQuote, displayFavoriteQuote } from "./uiHelpers.js";
+import { appUI } from "./classes/AppUI.js";
 import { removeQuoteFromFavorites } from "./handlers/favoritesHandler.js";
 
 function initializeApp({ quotes, starElement }) {
@@ -19,7 +19,7 @@ function initializeApp({ quotes, starElement }) {
 
   if (currentQuoteFromLocalStorage) {
     currentQuoteId = currentQuoteFromLocalStorage.id;
-    displayCurrentQuote(currentQuoteFromLocalStorage, starElement);
+    appUI.displayCurrentQuote(currentQuoteFromLocalStorage, starElement);
   }
 
   if (currentQuoteId) {
@@ -29,7 +29,11 @@ function initializeApp({ quotes, starElement }) {
   favorites
     .getAll()
     .forEach((favoriteQuote) =>
-      displayFavoriteQuote(favoriteQuote, starElement, removeQuoteFromFavorites)
+      appUI.displayFavoriteQuote(
+        favoriteQuote,
+        starElement,
+        removeQuoteFromFavorites
+      )
     );
 
   return {

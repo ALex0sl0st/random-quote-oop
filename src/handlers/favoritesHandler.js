@@ -1,11 +1,11 @@
-import { updateStarView, displayFavoriteQuote } from "../uiHelpers.js";
+import { appUI } from "../classes/AppUI.js";
 import { getQuoteById, getCurrentQuoteId } from "../managers/quoteManager.js";
 import { favorites } from "../classes/FavoriteQuotes.js";
 
 function addQuoteToFavorites(quote, starElement) {
   favorites.add(quote);
 
-  displayFavoriteQuote(quote, starElement, removeQuoteFromFavorites);
+  appUI.displayFavoriteQuote(quote, starElement, removeQuoteFromFavorites);
 }
 
 function removeQuoteFromFavorites(quote, starElement) {
@@ -16,7 +16,11 @@ function removeQuoteFromFavorites(quote, starElement) {
 
   favorites.remove(quote.id);
 
-  updateStarView(favorites.isQuoteFavorite(quoteId), starElement, quoteId);
+  appUI.updateStarView(
+    favorites.isQuoteFavorite(quoteId),
+    starElement,
+    quoteId
+  );
 }
 
 function toggleFavoriteQuote(quotes, starElement) {

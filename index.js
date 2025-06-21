@@ -5,7 +5,7 @@ import {
   saveToLocalStorage,
   LOCAL_STORAGE_KEYS,
 } from "./src/utils/localStorageUtils.js";
-import { displayCurrentQuote } from "./src/uiHelpers.js";
+import { appUI } from "./src/classes/AppUI.js";
 import { initializeApp } from "./src/initializeApp.js";
 
 const nextQuoteBtn = document.getElementById("next-quote-btn");
@@ -27,7 +27,7 @@ function setRandomQuote() {
   currentQuoteId = randomQuote.id;
 
   currentQuoteId = randomQuote.id;
-  displayCurrentQuote(randomQuote, starElement);
+  appUI.displayCurrentQuote(randomQuote, starElement);
 
   saveToLocalStorage(LOCAL_STORAGE_KEYS.CURRENT_QUOTE, randomQuote);
   // console.log(

@@ -1,10 +1,7 @@
 import quotes from "./src/data/quotes.js";
+import QuoteProvider from "./src/classes/QuoteProvider.js";
 import { toggleFavoriteQuote } from "./src/handlers/favoritesHandler.js";
-import { getRandomQuoteIndex } from "./src/utils/mathUtils.js";
-import {
-  saveToLocalStorage,
-  LOCAL_STORAGE_KEYS,
-} from "./src/utils/localStorageUtils.js";
+import currentQuoteManager from "./src/classes/storage/CurrentQuoteManager.js";
 import { appUI } from "./src/classes/AppUI.js";
 import { initializeApp } from "./src/initializeApp.js";
 
@@ -12,24 +9,21 @@ const nextQuoteBtn = document.getElementById("next-quote-btn");
 const starElement = document.getElementById("star");
 
 // let currentQuoteIndex = -1;
-// let currentQuoteId = null;
 
-let { currentQuoteIndex, currentQuoteId } = initializeApp({
+let currentQuoteIndex = initializeApp({
   quotes,
   starElement,
 });
 
 function setRandomQuote() {
-  const randomIndex = getRandomQuoteIndex(currentQuoteIndex, quotes.length);
-  currentQuoteIndex = randomIndex;
+  let randomQuote;
+  [randomQuote, currentQuoteIndex] = QuoteProvider.getRandomQuoteFromArray(
+    quotes,
+    currentQuoteIndex
+  );
 
-  const randomQuote = quotes[randomIndex];
-  currentQuoteId = randomQuote.id;
-
-  currentQuoteId = randomQuote.id;
-  appUI.displayCurrentQuote(randomQuote, starElement);
-
-  saveToLocalStorage(LOCAL_STORAGE_KEYS.CURRENT_QUOTE, randomQuote);
+  currentQuoteManager.update(randomQuote);
+  appUI.displayCurrentQuote(currentQuoteManager.getCurrentQuote(), starElement);
   // console.log(
   //   "First",
   //   quotes.filter((el) => isQuoteFavorite(el.id))
@@ -38,7 +32,7 @@ function setRandomQuote() {
 
 nextQuoteBtn.addEventListener("click", setRandomQuote);
 starElement.addEventListener("click", () => {
-  toggleFavoriteQuote(quotes, starElement);
+  toggleFavoriteQuote(starElement);
 });
 
 // function getCurrentQuoteId() {

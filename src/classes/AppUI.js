@@ -1,5 +1,5 @@
-import { getCurrentQuoteId } from "../managers/quoteManager.js";
-import { favorites } from "./FavoriteQuotes.js";
+import { favoriteQuotes } from "./storage/FavoriteQuotes.js";
+import currentQuoteManager from "./storage/CurrentQuoteManager.js";
 
 class AppUI {
   constructor() {
@@ -25,7 +25,7 @@ class AppUI {
   }
 
   updateStarView(isFavorite, element, updatingQuoteId) {
-    if (updatingQuoteId === getCurrentQuoteId()) {
+    if (updatingQuoteId === currentQuoteManager.getCurrentQuoteId()) {
       this.setStarView(isFavorite, element);
     }
   }
@@ -33,7 +33,7 @@ class AppUI {
   displayFavoriteQuote(quote, starElement, removeQuoteFromFavorites) {
     const { text, author, id } = quote;
 
-    const isFavorite = favorites.isQuoteFavorite(id);
+    const isFavorite = favoriteQuotes.isQuoteFavorite(id);
 
     const favoriteQuoteCard = document.createElement("div");
     const quoteAuthor = author ? author : "No author";
@@ -64,9 +64,9 @@ class AppUI {
       ? author
       : "This quote does not have author";
 
-    this.currentQuoteContainerElement.dataset.currentQuoteId = id;
+    // this.currentQuoteContainerElement.dataset.currentQuoteId = id;
 
-    this.setStarView(favorites.isQuoteFavorite(id), starElement);
+    this.setStarView(favoriteQuotes.isQuoteFavorite(id), starElement);
   }
 }
 

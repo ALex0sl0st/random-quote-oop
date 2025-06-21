@@ -2,8 +2,8 @@ import {
   LOCAL_STORAGE_KEYS,
   loadFromLocalStorage,
   saveToLocalStorage,
-} from "../utils/localStorageUtils.js";
-
+} from "../../utils/localStorageUtils.js";
+import { Quote } from "../Quote.js";
 class FavoriteQuotes {
   constructor(storageKey = LOCAL_STORAGE_KEYS.FAVORITE_QUOTES) {
     this.storageKey = storageKey;
@@ -33,10 +33,12 @@ class FavoriteQuotes {
   }
 
   loadFromLocalStorage() {
-    this.favoriteQuotes = loadFromLocalStorage(this.storageKey) || [];
+    const stored = loadFromLocalStorage(this.storageKey) || [];
+
+    this.favoriteQuotes = stored.map((obj) => Quote.createFromObject(obj));
   }
 }
 
-const favorites = new FavoriteQuotes();
+const favoriteQuotes = new FavoriteQuotes();
 
-export { favorites };
+export { favoriteQuotes };

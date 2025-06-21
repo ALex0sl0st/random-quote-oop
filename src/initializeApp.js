@@ -1,9 +1,6 @@
-import { favorites } from "./classes/FavoriteQuotes.js";
-import {
-  loadFromLocalStorage,
-  LOCAL_STORAGE_KEYS,
-} from "./utils/localStorageUtils.js";
-import { getQuoteIndexById } from "./managers/quoteManager.js";
+import { favoriteQuotes } from "./classes/storage/FavoriteQuotes.js";
+import { getQuoteIndexById } from "./utils/quoteHelpers.js";
+import currentQuoteManager from "./classes/storage/CurrentQuoteManager.js";
 import { appUI } from "./classes/AppUI.js";
 import { removeQuoteFromFavorites } from "./handlers/favoritesHandler.js";
 
@@ -11,22 +8,19 @@ function initializeApp({ quotes, starElement }) {
   let currentQuoteIndex = -1;
   let currentQuoteId = null;
 
-  favorites.loadFromLocalStorage();
+  favoriteQuotes.loadFromLocalStorage();
+  currentQuoteManager.loadFromLocalStorage();
 
-  const currentQuoteFromLocalStorage = loadFromLocalStorage(
-    LOCAL_STORAGE_KEYS.CURRENT_QUOTE
-  );
+  const currentQuote = currentQuoteManager.getCurrentQuote();
 
-  if (currentQuoteFromLocalStorage) {
-    currentQuoteId = currentQuoteFromLocalStorage.id;
-    appUI.displayCurrentQuote(currentQuoteFromLocalStorage, starElement);
-  }
+  if (currentQuote) {
+    currentQuoteId = currentQuote.id;
+    appUI.displayCurrentQuote(currentQuote, starElement);
 
-  if (currentQuoteId) {
     currentQuoteIndex = getQuoteIndexById(quotes, currentQuoteId);
   }
 
-  favorites
+  favoriteQuotes
     .getAll()
     .forEach((favoriteQuote) =>
       appUI.displayFavoriteQuote(
@@ -36,10 +30,7 @@ function initializeApp({ quotes, starElement }) {
       )
     );
 
-  return {
-    currentQuoteIndex,
-    currentQuoteId,
-  };
+  return currentQuoteIndex;
 }
 
 export { initializeApp };

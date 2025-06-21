@@ -1,0 +1,130 @@
+body {
+  margin: 0;
+  background-color: darkblue;
+}
+
+.container {
+  color: white;
+  text-align: center;
+}
+
+.current-quote-container > p {
+  font-size: 1.2rem;
+  margin: 25px;
+}
+
+.next-quote {
+  border-radius: 5px;
+  padding: 10px;
+  background-color: brown;
+  border: 2px solid rebeccapurple;
+  color: white;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.next-quote:hover {
+  cursor: pointer;
+  background-color: rgb(58, 113, 3);
+}
+
+.next-quote:active {
+  background-color: chartreuse;
+  transform: translate(4px, 4px);
+  transition: background-color 0.1s ease, transform 0.1s ease;
+}
+
+#quote {
+  margin-bottom: 0px;
+}
+
+#quote-author {
+  margin-top: 10px;
+}
+
+.quote-author {
+  font-style: italic;
+}
+
+.quote-action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  /* border: 2px solid; */
+}
+
+.star {
+  font-size: 2rem;
+  line-height: 2rem;
+  cursor: pointer;
+  transition: color 0.3s;
+  /* border: 2px solid; */
+}
+
+.star.inactive-star::before {
+  content: "☆";
+  color: gold;
+}
+
+.star.active-star::before {
+  content: "★";
+  color: gold;
+}
+
+.favoriteQuotesContainer {
+  margin: 30px;
+  /* border: 2px solid red; */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  column-gap: 10px;
+  row-gap: 30px;
+  /* gap: 30px 20px; */
+}
+
+.quoteCard {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  /* width: 30%; */
+  width: 300px;
+  background-color: aliceblue;
+  color: black;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: left;
+}
+
+.quoteCard p {
+  font-size: 1.2rem;
+  margin: 0px;
+  margin-bottom: 15px;
+}
+
+.quoteCard h2 {
+  font-size: 1.4rem;
+  margin-top: 0;
+}
+
+.delete-quote-btn {
+  align-self: flex-end; /* вирівнює кнопку по правому краю картки */
+  background-color: crimson;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  margin-top: auto; /* опускає кнопку донизу картки */
+}
+
+.delete-quote-btn:hover {
+  background-color: red;
+}
+
+.delete-quote-btn:active {
+  background-color: red;
+  transform: translateY(2px);
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Random Quotes</title>
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Random quote:</h1>
+      <div class="current-quote-container" id="current-quote-container">
+        <p id="quote">Click button to see quote</p>
+        <p id="quote-author" class="quote-author">Quote's author</p>
+      </div>
+      <div class="quote-action">
+        <button class="next-quote" id="next-quote-btn">Next quote</button>
+        <span class="inactive-star star" id="star"></span>
+      </div>
+      <div id="favoriteQuotesContainer" class="favoriteQuotesContainer"></div>
+    </div>
+    <script src="index.js" type="module"></script>
+  </body>
+</html>

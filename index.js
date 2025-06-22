@@ -8,19 +8,10 @@ import { initializeApp } from "./src/initializeApp.js";
 const nextQuoteBtn = document.getElementById("next-quote-btn");
 const starElement = document.getElementById("star");
 
-// let currentQuoteIndex = -1;
-
-let currentQuoteIndex = initializeApp({
-  quotes,
-  starElement,
-});
+initializeApp({ quotes, starElement });
 
 function setRandomQuote() {
-  let randomQuote;
-  [randomQuote, currentQuoteIndex] = QuoteProvider.getRandomQuoteFromArray(
-    quotes,
-    currentQuoteIndex
-  );
+  const randomQuote = QuoteProvider.getRandomQuoteFromArray(quotes);
 
   currentQuoteManager.update(randomQuote);
   appUI.displayCurrentQuote(currentQuoteManager.getCurrentQuote(), starElement);

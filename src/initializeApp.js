@@ -1,23 +1,21 @@
 import { favoriteQuotes } from "./classes/storage/FavoriteQuotes.js";
 import { getQuoteIndexById } from "./utils/quoteHelpers.js";
+import QuoteProvider from "./classes/QuoteProvider.js";
 import currentQuoteManager from "./classes/storage/CurrentQuoteManager.js";
 import { appUI } from "./classes/AppUI.js";
 import { removeQuoteFromFavorites } from "./handlers/favoritesHandler.js";
 
 function initializeApp({ quotes, starElement }) {
-  let currentQuoteIndex = -1;
-  let currentQuoteId = null;
-
   favoriteQuotes.loadFromLocalStorage();
   currentQuoteManager.loadFromLocalStorage();
 
   const currentQuote = currentQuoteManager.getCurrentQuote();
+  const currentQuoteId = currentQuoteManager.getCurrentQuoteId();
 
   if (currentQuote) {
-    currentQuoteId = currentQuote.id;
     appUI.displayCurrentQuote(currentQuote, starElement);
 
-    currentQuoteIndex = getQuoteIndexById(quotes, currentQuoteId);
+    QuoteProvider.setLastRandomIndex(getQuoteIndexById(quotes, currentQuoteId));
   }
 
   favoriteQuotes
@@ -29,8 +27,6 @@ function initializeApp({ quotes, starElement }) {
         removeQuoteFromFavorites
       )
     );
-
-  return currentQuoteIndex;
 }
 
 export { initializeApp };

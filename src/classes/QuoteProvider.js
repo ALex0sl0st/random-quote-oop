@@ -2,12 +2,22 @@ import { Quote } from "./Quote.js";
 import { getRandomIndex } from "../utils/mathUtils.js";
 
 class QuoteProvider {
-  static getRandomQuoteFromArray(quotesArray, excludedIndex = -1) {
+  static lastRandomIndex = -1;
+
+  static getRandomQuoteFromArray(
+    quotesArray,
+    excludedIndex = QuoteProvider.lastRandomIndex
+  ) {
     const randomIndex = getRandomIndex(quotesArray.length, excludedIndex);
 
-    const randomQuoteObj = quotesArray[randomIndex];
-    const randomQuote = Quote.createFromObject(randomQuoteObj);
-    return [randomQuote, randomIndex];
+    QuoteProvider.lastRandomIndex = randomIndex;
+
+    const randomQuote = Quote.createFromObject(quotesArray[randomIndex]);
+    return randomQuote;
+  }
+
+  static setLastRandomIndex(index) {
+    QuoteProvider.lastRandomIndex = index;
   }
 }
 

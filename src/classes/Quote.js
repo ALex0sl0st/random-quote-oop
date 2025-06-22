@@ -6,6 +6,14 @@ class Quote {
     this.id = id ? id : getUniqueId();
   }
 
+  formatText() {
+    return `"${this.text}"`;
+  }
+
+  formatAuthor() {
+    return this.author ? this.author : "This quote does not have author";
+  }
+
   static createFromObject(obj) {
     return new Quote(obj.text, obj.author, obj.id);
   }

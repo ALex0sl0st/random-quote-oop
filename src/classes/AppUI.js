@@ -31,16 +31,15 @@ class AppUI {
   }
 
   displayFavoriteQuote(quote, starElement, removeQuoteFromFavorites) {
-    const { text, author, id } = quote;
+    const { id } = quote;
 
     const isFavorite = favoriteQuotes.isQuoteFavorite(id);
 
     const favoriteQuoteCard = document.createElement("div");
-    const quoteAuthor = author ? author : "No author";
 
     favoriteQuoteCard.innerHTML = `
-  <h2>${quoteAuthor} -</h2>
-  <p>"${text}"</p>
+  <h2>${quote.formatAuthor()} -</h2>
+  <p>${quote.formatText()}</p>
   <button class="delete-quote-btn">Remove</button>`;
 
     favoriteQuoteCard.classList.add("quoteCard");
@@ -58,11 +57,9 @@ class AppUI {
   }
 
   displayCurrentQuote(quote, starElement) {
-    const { id, text, author } = quote;
-    this.quoteElement.textContent = `"${text}"`;
-    this.quoteAuthorElement.textContent = author
-      ? author
-      : "This quote does not have author";
+    const { id } = quote;
+    this.quoteElement.textContent = quote.formatText();
+    this.quoteAuthorElement.textContent = quote.formatAuthor();
 
     // this.currentQuoteContainerElement.dataset.currentQuoteId = id;
 

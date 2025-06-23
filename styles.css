@@ -13,26 +13,39 @@ body {
   margin: 25px;
 }
 
-.next-quote {
+.random-quote-btn {
   border-radius: 5px;
   padding: 10px;
-  background-color: brown;
-  border: 2px solid rebeccapurple;
+  background-color: teal; /* більш холодний, контрастний до darkblue */
+  border: 2px solid mediumturquoise;
   color: white;
   font-size: 1.1rem;
+  font-weight: bold;
+  letter-spacing: 0.3px;
   transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
-.next-quote:hover {
+.random-quote-btn:hover {
   cursor: pointer;
-  background-color: rgb(58, 113, 3);
+  background-color: rgb(5, 189, 119);
 }
 
-.next-quote:active {
-  background-color: chartreuse;
+.random-quote-btn:active {
   transform: translate(4px, 4px);
-  transition: background-color 0.1s ease, transform 0.1s ease;
 }
+
+.random-quote-btn.online {
+  background-color: darkslateblue;
+  border-color: teal;
+}
+
+.random-quote-btn.online:hover {
+  background-color: mediumslateblue;
+}
+
+/* .random-quote-btn.online:active {
+  background-color: slateblue;
+} */
 
 #quote {
   margin-bottom: 0px;

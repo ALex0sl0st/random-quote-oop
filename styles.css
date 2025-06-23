@@ -43,6 +43,13 @@ body {
   background-color: mediumslateblue;
 }
 
+.random-quote-btn:disabled {
+  cursor: not-allowed;
+}
+.random-quote-btn:disabled:active {
+  transform: none;
+}
+
 /* .random-quote-btn.online:active {
   background-color: slateblue;
 } */

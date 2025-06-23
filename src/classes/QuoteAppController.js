@@ -9,6 +9,8 @@ class QuoteAppController {
     this.localQuoteBtn = document.getElementById("local-quote-btn");
     this.onlineQuoteBtn = document.getElementById("online-quote-btn");
     this.starElement = document.getElementById("star");
+
+    this.isGatingAPIQuote = false;
   }
 
   setCurrentQuote(quote) {
@@ -25,8 +27,22 @@ class QuoteAppController {
   }
 
   async setOnlineRandomQuote() {
-    const randomQuote = await QuoteProvider.getRandomQuoteViaAPI();
-    if (randomQuote) this.setCurrentQuote(randomQuote);
+    if (this.isGatingAPIQuote) return;
+
+    this.isGatingAPIQuote = true;
+    QuoteAppController.setButtonState(this.onlineQuoteBtn, false);
+
+    try {
+      const randomQuote = await QuoteProvider.getRandomQuoteViaAPI();
+      if (randomQuote) this.setCurrentQuote(randomQuote);
+    } finally {
+      this.isGatingAPIQuote = false;
+      QuoteAppController.setButtonState(this.onlineQuoteBtn, true);
+    }
+  }
+
+  static setButtonState(button, isEnabled) {
+    button.disabled = !isEnabled;
   }
 
   init() {

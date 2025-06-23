@@ -27,6 +27,10 @@ class QuoteProvider {
       const response = await fetch(url);
       const data = await response.json();
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
       const { id, quote: text, author } = data;
       return Quote.createFromObject({ id, text, author });
     } catch (error) {

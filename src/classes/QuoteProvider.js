@@ -4,6 +4,10 @@ import { getRandomIndex } from "../utils/mathUtils.js";
 class QuoteProvider {
   static lastRandomIndex = -1;
 
+  static setLastRandomIndex(index) {
+    QuoteProvider.lastRandomIndex = index;
+  }
+
   static getRandomQuoteFromArray(
     quotesArray,
     excludedIndex = QuoteProvider.lastRandomIndex
@@ -14,10 +18,6 @@ class QuoteProvider {
 
     const randomQuote = Quote.createFromObject(quotesArray[randomIndex]);
     return randomQuote;
-  }
-
-  static setLastRandomIndex(index) {
-    QuoteProvider.lastRandomIndex = index;
   }
 
   static async getRandomQuoteViaAPI(

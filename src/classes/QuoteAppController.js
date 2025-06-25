@@ -3,6 +3,7 @@ import QuoteProvider from "./QuoteProvider.js";
 import { toggleFavoriteQuote } from "../handlers/favoritesHandler.js";
 import currentQuoteManager from "./storage/CurrentQuoteManager.js";
 import { appUI } from "./AppUI.js";
+import { Quote } from "./Quote.js";
 
 class QuoteAppController {
   constructor() {
@@ -14,11 +15,13 @@ class QuoteAppController {
   }
 
   setCurrentQuote(quote) {
-    currentQuoteManager.update(quote);
-    appUI.displayCurrentQuote(
-      currentQuoteManager.getCurrentQuote(),
-      this.starElement
-    );
+    if (quote instanceof Quote) {
+      currentQuoteManager.update(quote);
+      appUI.displayCurrentQuote(
+        currentQuoteManager.getCurrentQuote(),
+        this.starElement
+      );
+    }
   }
 
   setLocalRandomQuote() {
@@ -29,16 +32,17 @@ class QuoteAppController {
   async setOnlineRandomQuote() {
     if (this.isGatingAPIQuote) return;
 
-    this.isGatingAPIQuote = true;
-    QuoteAppController.setButtonState(this.onlineQuoteBtn, false);
+    this.setIsFetchingQuote(true);
 
-    try {
-      const randomQuote = await QuoteProvider.getRandomQuoteViaAPI();
-      if (randomQuote) this.setCurrentQuote(randomQuote);
-    } finally {
-      this.isGatingAPIQuote = false;
-      QuoteAppController.setButtonState(this.onlineQuoteBtn, true);
-    }
+    const randomQuote = await QuoteProvider.getRandomQuoteViaAPI();
+    this.setCurrentQuote(randomQuote);
+
+    this.setIsFetchingQuote(false);
+  }
+
+  setIsFetchingQuote(isFetching) {
+    this.isGatingAPIQuote = isFetching;
+    QuoteAppController.setButtonState(this.onlineQuoteBtn, !isFetching);
   }
 
   static setButtonState(button, isEnabled) {

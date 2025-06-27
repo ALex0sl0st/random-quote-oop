@@ -50,6 +50,15 @@ body {
   transform: none;
 }
 
+.random-quote-btn.server {
+  background-color: rgb(44, 62, 80); /* темно-синій відтінок */
+  border-color: lightseagreen;
+}
+
+.random-quote-btn.server:hover {
+  background-color: steelblue;
+}
+
 /* .random-quote-btn.online:active {
   background-color: slateblue;
 } */
@@ -68,6 +77,7 @@ body {
 
 .quote-action {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 20px;

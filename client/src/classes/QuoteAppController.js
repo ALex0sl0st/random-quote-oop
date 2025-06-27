@@ -8,10 +8,13 @@ import { Quote } from "./Quote.js";
 class QuoteAppController {
   constructor() {
     this.localQuoteBtn = document.getElementById("local-quote-btn");
+    this.serverQuoteBtn = document.getElementById("server-quote-btn");
     this.onlineQuoteBtn = document.getElementById("online-quote-btn");
+
     this.starElement = document.getElementById("star");
 
-    this.isGatingAPIQuote = false;
+    this.isGatingOnlineQuote = false;
+    this.isGatingServerQuote = false;
   }
 
   setCurrentQuote(quote) {
@@ -30,19 +33,39 @@ class QuoteAppController {
   }
 
   async setOnlineRandomQuote() {
-    if (this.isGatingAPIQuote) return;
+    if (this.isGatingOnlineQuote) return;
 
-    this.setIsFetchingQuote(true);
+    this.setIsFetchingQuote("isGatingOnlineQuote", this.onlineQuoteBtn, true);
 
-    const randomQuote = await QuoteProvider.getRandomQuoteViaAPI();
+    const randomQuote = await QuoteProvider.getRandomQuoteViaAPI(
+      QuoteProvider.onlineRandomQuoteUrl
+    );
     this.setCurrentQuote(randomQuote);
 
-    this.setIsFetchingQuote(false);
+    this.setIsFetchingQuote("isGatingOnlineQuote", this.onlineQuoteBtn, false);
   }
 
-  setIsFetchingQuote(isFetching) {
-    this.isGatingAPIQuote = isFetching;
-    QuoteAppController.setButtonState(this.onlineQuoteBtn, !isFetching);
+  setIsFetchingQuote(propertyName, button, isFetching) {
+    this[propertyName] = isFetching;
+    QuoteAppController.setButtonState(button, !isFetching);
+  }
+
+  async setServerRandomQuote() {
+    if (this.isGatingServerQuote) return;
+
+    this.setIsFetchingQuote("isGatingServerQuote", this.serverQuoteBtn, true);
+
+    const randomQuote = await QuoteProvider.getRandomQuoteFromServer(
+      QuoteProvider.serverRandomQuoteUrl
+    );
+    this.setCurrentQuote(randomQuote);
+
+    this.setIsFetchingQuote("isGatingServerQuote", this.serverQuoteBtn, false);
+  }
+
+  setIsFetchingQuote(propertyName, button, isFetching) {
+    this[propertyName] = isFetching;
+    QuoteAppController.setButtonState(button, !isFetching);
   }
 
   static setButtonState(button, isEnabled) {
@@ -53,9 +76,13 @@ class QuoteAppController {
     this.localQuoteBtn.addEventListener("click", () =>
       this.setLocalRandomQuote()
     );
+    this.serverQuoteBtn.addEventListener("click", () =>
+      this.setServerRandomQuote()
+    );
     this.onlineQuoteBtn.addEventListener("click", () =>
       this.setOnlineRandomQuote()
     );
+
     this.starElement.addEventListener("click", () => {
       toggleFavoriteQuote(this.starElement);
     });

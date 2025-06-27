@@ -2,6 +2,11 @@ import { Quote } from "./Quote.js";
 import { getRandomIndex } from "../utils/mathUtils.js";
 
 class QuoteProvider {
+  static onlineRandomQuoteUrl =
+    "https://quoteslate.vercel.app/api/quotes/random";
+  static serverRandomQuoteUrl =
+    "http://localhost:3000/api/quotes/random-single";
+
   static lastRandomIndex = -1;
 
   static setLastRandomIndex(index) {
@@ -20,9 +25,7 @@ class QuoteProvider {
     return randomQuote;
   }
 
-  static async getRandomQuoteViaAPI(
-    url = "https://quoteslate.vercel.app/api/quotes/random"
-  ) {
+  static async getRandomQuoteViaAPI(url = QuoteProvider.onlineRandomQuoteUrl) {
     try {
       const response = await fetch(url);
       const data = await response.json();
@@ -32,6 +35,27 @@ class QuoteProvider {
       }
 
       const { id, quote: text, author } = data;
+      return Quote.createFromObject({ id, text, author });
+    } catch (error) {
+      // console.log("CUSTOM ERROR");
+      console.error(error);
+
+      return null;
+    }
+  }
+
+  static async getRandomQuoteFromServer(
+    url = QuoteProvider.serverRandomQuoteUrl
+  ) {
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const { id, text, author } = data;
       return Quote.createFromObject({ id, text, author });
     } catch (error) {
       // console.log("CUSTOM ERROR");

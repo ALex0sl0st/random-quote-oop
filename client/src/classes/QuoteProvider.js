@@ -1,11 +1,10 @@
 import { Quote } from "./Quote.js";
 import { getRandomIndex } from "../utils/mathUtils.js";
+import config from "../utils/config.js";
 
 class QuoteProvider {
-  static onlineRandomQuoteUrl =
-    "https://quoteslate.vercel.app/api/quotes/random";
-  static serverRandomQuoteUrl =
-    "http://localhost:3000/api/quotes/random-single";
+  static onlineRandomQuoteUrl = `${config.PUBLIC_API_URL}/api/quotes/random`;
+  static serverRandomQuoteUrl = `${config.LOCAL_API_URL}/api/quotes/random-single`;
 
   static lastRandomIndex = -1;
 

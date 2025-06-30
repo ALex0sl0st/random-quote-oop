@@ -3,7 +3,7 @@ import { getQuoteIndexById } from "./utils/quoteHelpers.js";
 import QuoteProvider from "./classes/QuoteProvider.js";
 import currentQuoteManager from "./classes/storage/CurrentQuoteManager.js";
 import { appUI } from "./classes/AppUI.js";
-import { removeQuoteFromFavorites } from "./handlers/favoritesHandler.js";
+import { favoriteQuotesController } from "./classes/controllers/FavoriteQuotesController.js";
 
 function initializeApp({ quotes, starElement }) {
   favoriteQuotes.loadFromLocalStorage();
@@ -24,7 +24,7 @@ function initializeApp({ quotes, starElement }) {
       appUI.displayFavoriteQuote(
         favoriteQuote,
         starElement,
-        removeQuoteFromFavorites
+        favoriteQuotesController.remove.bind(favoriteQuotesController)
       )
     );
 }

@@ -28,6 +28,11 @@ class FavoriteQuotes {
     return this.favoriteQuotes;
   }
 
+  removeAll() {
+    this.favoriteQuotes = [];
+    saveToLocalStorage(this.storageKey, this.favoriteQuotes);
+  }
+
   isQuoteFavorite(id) {
     return this.favoriteQuotes.some((quote) => quote.id === id);
   }

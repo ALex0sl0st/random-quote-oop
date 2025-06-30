@@ -1,15 +1,17 @@
-import quotes from "../data/quotes.js";
-import QuoteProvider from "./QuoteProvider.js";
-import { toggleFavoriteQuote } from "../handlers/favoritesHandler.js";
-import currentQuoteManager from "./storage/CurrentQuoteManager.js";
-import { appUI } from "./AppUI.js";
-import { Quote } from "./Quote.js";
+import quotes from "../../data/quotes.js";
+import QuoteProvider from "../QuoteProvider.js";
+import { favoriteQuotesController } from "./FavoriteQuotesController.js";
+import currentQuoteManager from "../storage/CurrentQuoteManager.js";
+import { appUI } from "../AppUI.js";
+import { Quote } from "../Quote.js";
 
 class QuoteAppController {
   constructor() {
     this.localQuoteBtn = document.getElementById("local-quote-btn");
     this.serverQuoteBtn = document.getElementById("server-quote-btn");
     this.onlineQuoteBtn = document.getElementById("online-quote-btn");
+
+    this.removeAllFavoriteQuotesBtn = document.getElementById("remove-all-btn");
 
     this.starElement = document.getElementById("star");
 
@@ -83,8 +85,12 @@ class QuoteAppController {
       this.setOnlineRandomQuote()
     );
 
+    this.removeAllFavoriteQuotesBtn.addEventListener("click", () =>
+      favoriteQuotesController.removeAll(this.starElement)
+    );
+
     this.starElement.addEventListener("click", () => {
-      toggleFavoriteQuote(this.starElement);
+      favoriteQuotesController.toggle(this.starElement);
     });
   }
 }

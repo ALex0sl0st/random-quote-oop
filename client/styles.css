@@ -158,3 +158,27 @@ body {
   background-color: red;
   transform: translateY(2px);
 }
+
+.remove-all-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 10px;
+
+  border: none;
+  border-radius: 5px;
+  background-color: rgb(208, 0, 0);
+  color: white;
+
+  transition: background-color 0.3s ease, transform 0.1s ease;
+
+  font-size: 1.1rem;
+}
+
+.remove-all-btn:hover {
+  cursor: pointer;
+  background-color: red;
+}
+
+.remove-all-btn:active {
+  transform: translate(4px, 4px);
+}

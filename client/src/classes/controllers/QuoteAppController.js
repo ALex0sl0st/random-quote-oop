@@ -4,6 +4,7 @@ import { favoriteQuotesController } from "./FavoriteQuotesController.js";
 import currentQuoteManager from "../storage/CurrentQuoteManager.js";
 import { appUI } from "../AppUI.js";
 import { Quote } from "../Quote.js";
+import { favoritesPaginator } from "./FavoritesPaginator.js";
 
 class QuoteAppController {
   constructor() {
@@ -17,6 +18,12 @@ class QuoteAppController {
 
     this.isGatingOnlineQuote = false;
     this.isGatingServerQuote = false;
+
+    this.firstPageBtn = document.getElementById("firstPageBtn");
+    this.prevPageBtn = document.getElementById("prevPageBtn");
+    this.nextPageBtn = document.getElementById("nextPageBtn");
+    this.lastPageBtn = document.getElementById("lastPageBtn");
+    // this.pageIndicator = document.getElementById("pageIndicator");
   }
 
   setCurrentQuote(quote) {
@@ -91,6 +98,19 @@ class QuoteAppController {
 
     this.starElement.addEventListener("click", () => {
       favoriteQuotesController.toggle(this.starElement);
+    });
+
+    this.firstPageBtn.addEventListener("click", () => {
+      favoritesPaginator.goToFirstPage();
+    });
+    this.prevPageBtn.addEventListener("click", () => {
+      favoritesPaginator.goToPrevPage();
+    });
+    this.nextPageBtn.addEventListener("click", () => {
+      favoritesPaginator.goToNextPage();
+    });
+    this.lastPageBtn.addEventListener("click", () => {
+      favoritesPaginator.goToLastPage();
     });
   }
 }

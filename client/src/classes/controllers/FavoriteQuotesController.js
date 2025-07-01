@@ -9,13 +9,13 @@ class FavoriteQuotesController {
     this.currentQuoteManager = currentQuoteManager;
   }
 
-  add(quote, starElement) {
+  add(quote) {
     this.favoriteQuotes.add(quote);
 
-    this.appUI.displayFavoriteQuote(quote, starElement, this.remove.bind(this));
+    this.appUI.displayFavoriteQuote({ quote });
   }
 
-  remove(quote, starElement) {
+  remove(quote) {
     const quoteId = quote.id;
 
     const cardElement = document.getElementById(`${quoteId}`);
@@ -25,12 +25,11 @@ class FavoriteQuotesController {
 
     this.appUI.updateStarView(
       this.favoriteQuotes.isQuoteFavorite(quoteId),
-      starElement,
       quoteId
     );
   }
 
-  toggle(starElement) {
+  toggle() {
     const currentQuote = this.currentQuoteManager.getCurrentQuote();
     if (currentQuote) {
       if (
@@ -38,21 +37,20 @@ class FavoriteQuotesController {
           this.currentQuoteManager.getCurrentQuoteId()
         )
       ) {
-        this.add(currentQuote, starElement);
+        this.add(currentQuote);
       } else {
-        this.remove(currentQuote, starElement);
+        this.remove(currentQuote);
       }
     }
   }
 
-  removeAll(starElement) {
+  removeAll() {
     this.favoriteQuotes.removeAll();
     this.appUI.favoriteQuotesContainerElement.innerHTML = "";
 
     const currentQuoteId = this.currentQuoteManager.getCurrentQuoteId();
     this.appUI.updateStarView(
       this.favoriteQuotes.isQuoteFavorite(currentQuoteId),
-      starElement,
       currentQuoteId
     );
   }

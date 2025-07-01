@@ -4,6 +4,7 @@ import {
   saveToLocalStorage,
 } from "../../utils/localStorageUtils.js";
 import { Quote } from "../Quote.js";
+import { deepCopy } from "../../utils/helpers.js";
 class FavoriteQuotes {
   constructor(storageKey = LOCAL_STORAGE_KEYS.FAVORITE_QUOTES) {
     this.storageKey = storageKey;
@@ -24,8 +25,10 @@ class FavoriteQuotes {
     saveToLocalStorage(this.storageKey, this.favoriteQuotes);
   }
 
-  getAll() {
-    return this.favoriteQuotes;
+  getAll(reverse = false) {
+    return !reverse
+      ? this.favoriteQuotes
+      : deepCopy(this.favoriteQuotes).reverse();
   }
 
   removeAll() {

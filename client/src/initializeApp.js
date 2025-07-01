@@ -4,16 +4,24 @@ import QuoteProvider from "./classes/QuoteProvider.js";
 import currentQuoteManager from "./classes/storage/CurrentQuoteManager.js";
 import { appUI } from "./classes/AppUI.js";
 import { favoriteQuotesController } from "./classes/controllers/FavoriteQuotesController.js";
+import { quoteAppController } from "./classes/controllers/QuoteAppController.js";
 
-function initializeApp({ quotes, starElement }) {
+function initializeApp(quotes) {
   favoriteQuotes.loadFromLocalStorage();
   currentQuoteManager.loadFromLocalStorage();
 
   const currentQuote = currentQuoteManager.getCurrentQuote();
   const currentQuoteId = currentQuoteManager.getCurrentQuoteId();
 
+  appUI.setDefaults({
+    starElement: quoteAppController.starElement,
+    removeQuoteHandler: favoriteQuotesController.remove.bind(
+      favoriteQuotesController
+    ),
+  });
+
   if (currentQuote) {
-    appUI.displayCurrentQuote(currentQuote, starElement);
+    appUI.displayCurrentQuote(currentQuote);
 
     QuoteProvider.setLastRandomIndex(getQuoteIndexById(quotes, currentQuoteId));
   }
@@ -21,11 +29,7 @@ function initializeApp({ quotes, starElement }) {
   favoriteQuotes
     .getAll()
     .forEach((favoriteQuote) =>
-      appUI.displayFavoriteQuote(
-        favoriteQuote,
-        starElement,
-        favoriteQuotesController.remove.bind(favoriteQuotesController)
-      )
+      appUI.displayFavoriteQuote({ quote: favoriteQuote })
     );
 }
 

@@ -12,9 +12,19 @@ class AppUI {
     this.currentQuoteContainerElement = document.getElementById(
       "current-quote-container"
     );
+
+    this.pageIndicatorElement = document.getElementById("pageIndicator");
+
+    this.starElement = null;
+    this.removeQuoteHandler = null;
   }
 
-  setStarView(isFavorite, element) {
+  setDefaults({ starElement, removeQuoteHandler }) {
+    this.starElement = starElement;
+    this.removeQuoteHandler = removeQuoteHandler;
+  }
+
+  setStarView(isFavorite, element = this.starElement) {
     if (isFavorite) {
       element.classList.add("active-star");
       element.classList.remove("inactive-star");
@@ -24,13 +34,28 @@ class AppUI {
     }
   }
 
-  updateStarView(isFavorite, element, updatingQuoteId) {
+  updateStarView(isFavorite, updatingQuoteId, element = this.starElement) {
     if (updatingQuoteId === currentQuoteManager.getCurrentQuoteId()) {
       this.setStarView(isFavorite, element);
     }
   }
 
-  displayFavoriteQuote(quote, starElement, removeQuoteFromFavorites) {
+  displayCurrentQuote(quote, starElement = this.starElement) {
+    const { id } = quote;
+    this.quoteElement.textContent = quote.formatText();
+    this.quoteAuthorElement.textContent = quote.formatAuthor();
+
+    // this.currentQuoteContainerElement.dataset.currentQuoteId = id;
+
+    this.setStarView(favoriteQuotes.isQuoteFavorite(id), starElement);
+  }
+
+  displayFavoriteQuote({
+    quote,
+    starElement = this.starElement,
+    removeQuoteFromFavorites = this.removeQuoteHandler,
+    updateStarView = true,
+  }) {
     const { id } = quote;
 
     const isFavorite = favoriteQuotes.isQuoteFavorite(id);
@@ -46,7 +71,10 @@ class AppUI {
     favoriteQuoteCard.id = `${id}`;
 
     this.favoriteQuotesContainerElement.prepend(favoriteQuoteCard);
-    this.updateStarView(isFavorite, starElement, id);
+
+    if (updateStarView) {
+      this.updateStarView(isFavorite, id);
+    }
 
     document
       .getElementById(id)
@@ -56,14 +84,18 @@ class AppUI {
       });
   }
 
-  displayCurrentQuote(quote, starElement) {
-    const { id } = quote;
-    this.quoteElement.textContent = quote.formatText();
-    this.quoteAuthorElement.textContent = quote.formatAuthor();
+  updateFavoriteQuotesPage(quotesOnPage, pageNumber) {
+    this.favoriteQuotesContainerElement.innerHTML = "";
 
-    // this.currentQuoteContainerElement.dataset.currentQuoteId = id;
+    quotesOnPage.forEach((quote) =>
+      this.displayFavoriteQuote({ quote, updateStarView: false })
+    );
 
-    this.setStarView(favoriteQuotes.isQuoteFavorite(id), starElement);
+    this.updatePageIndicator(pageNumber);
+  }
+
+  updatePageIndicator(pageNumber = 1) {
+    this.pageIndicatorElement.textContent = `Page ${pageNumber}`;
   }
 }
 

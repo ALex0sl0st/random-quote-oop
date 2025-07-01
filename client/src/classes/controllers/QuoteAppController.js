@@ -23,7 +23,6 @@ class QuoteAppController {
     this.prevPageBtn = document.getElementById("prevPageBtn");
     this.nextPageBtn = document.getElementById("nextPageBtn");
     this.lastPageBtn = document.getElementById("lastPageBtn");
-    // this.pageIndicator = document.getElementById("pageIndicator");
   }
 
   setCurrentQuote(quote) {
@@ -93,11 +92,11 @@ class QuoteAppController {
     );
 
     this.removeAllFavoriteQuotesBtn.addEventListener("click", () =>
-      favoriteQuotesController.removeAll(this.starElement)
+      favoriteQuotesController.removeAll()
     );
 
     this.starElement.addEventListener("click", () => {
-      favoriteQuotesController.toggle(this.starElement);
+      favoriteQuotesController.toggle();
     });
 
     this.firstPageBtn.addEventListener("click", () => {

@@ -3,4 +3,8 @@ function getUniqueId() {
   return id;
 }
 
-export { getUniqueId };
+function deepCopy(item) {
+  return JSON.parse(JSON.stringify(item));
+}
+
+export { getUniqueId, deepCopy };

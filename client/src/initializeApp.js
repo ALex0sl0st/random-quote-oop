@@ -12,6 +12,9 @@ function initializeApp(quotes) {
   currentQuoteManager.loadFromLocalStorage();
   favoritesPaginator.loadFromLocalStorage();
 
+  favoritesPaginator.maxItemsPerPage =
+    favoritesPaginator.getMaxItemsBasedOnWidth(window.innerWidth);
+
   const currentQuote = currentQuoteManager.getCurrentQuote();
   const currentQuoteId = currentQuoteManager.getCurrentQuoteId();
 

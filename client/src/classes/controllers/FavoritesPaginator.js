@@ -9,7 +9,12 @@ import {
 class FavoritesPaginator {
   constructor() {
     this.currentPage = 1;
-    this.maxItemsPerPage = 2;
+    this.maxItemsPerPage = -1; // 2
+
+    this.addListenerForResizing = true;
+
+    this.addListenerForResizing &&
+      window.addEventListener("resize", this.handleResize.bind(this));
   }
 
   getMaxPageNumber() {
@@ -82,6 +87,25 @@ class FavoritesPaginator {
     const endIndex = startIndex + this.maxItemsPerPage;
 
     return allQuotes.slice(startIndex, endIndex);
+  }
+
+  getMaxItemsBasedOnWidth(width) {
+    if (width <= 700) {
+      return 2;
+    } else if (width <= 1000) {
+      return 4;
+    } else {
+      return 6;
+    }
+  }
+
+  handleResize() {
+    const newMax = this.getMaxItemsBasedOnWidth(window.innerWidth);
+    if (newMax !== this.maxItemsPerPage) {
+      console.log();
+      this.maxItemsPerPage = newMax;
+      this.updateView(true);
+    }
   }
 
   loadFromLocalStorage() {

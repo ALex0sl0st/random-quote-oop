@@ -70,7 +70,7 @@ class AppUI {
     favoriteQuoteCard.classList.add("quoteCard");
     favoriteQuoteCard.id = `${id}`;
 
-    this.favoriteQuotesContainerElement.prepend(favoriteQuoteCard);
+    this.favoriteQuotesContainerElement.append(favoriteQuoteCard);
 
     if (updateStarView) {
       this.updateStarView(isFavorite, id);
@@ -84,18 +84,18 @@ class AppUI {
       });
   }
 
-  updateFavoriteQuotesPage(quotesOnPage, pageNumber) {
+  setPageIndicator(pageNumber = 1, maxPageNumber = 1) {
+    this.pageIndicatorElement.textContent = `Page ${pageNumber} / ${maxPageNumber}`;
+  }
+
+  updateFavoriteQuotesPage(quotesForPage, pageNumber, maxPageNumber) {
     this.favoriteQuotesContainerElement.innerHTML = "";
 
-    quotesOnPage.forEach((quote) =>
+    quotesForPage.forEach((quote) =>
       this.displayFavoriteQuote({ quote, updateStarView: false })
     );
 
-    this.updatePageIndicator(pageNumber);
-  }
-
-  updatePageIndicator(pageNumber = 1) {
-    this.pageIndicatorElement.textContent = `Page ${pageNumber}`;
+    this.setPageIndicator(pageNumber, maxPageNumber);
   }
 }
 

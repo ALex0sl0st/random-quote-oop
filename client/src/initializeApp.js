@@ -5,10 +5,12 @@ import currentQuoteManager from "./classes/storage/CurrentQuoteManager.js";
 import { appUI } from "./classes/AppUI.js";
 import { favoriteQuotesController } from "./classes/controllers/FavoriteQuotesController.js";
 import { quoteAppController } from "./classes/controllers/QuoteAppController.js";
+import { favoritesPaginator } from "./classes/controllers/FavoritesPaginator.js";
 
 function initializeApp(quotes) {
   favoriteQuotes.loadFromLocalStorage();
   currentQuoteManager.loadFromLocalStorage();
+  favoritesPaginator.loadFromLocalStorage();
 
   const currentQuote = currentQuoteManager.getCurrentQuote();
   const currentQuoteId = currentQuoteManager.getCurrentQuoteId();
@@ -26,11 +28,13 @@ function initializeApp(quotes) {
     QuoteProvider.setLastRandomIndex(getQuoteIndexById(quotes, currentQuoteId));
   }
 
-  favoriteQuotes
-    .getAll()
-    .forEach((favoriteQuote) =>
-      appUI.displayFavoriteQuote({ quote: favoriteQuote })
-    );
+  favoritesPaginator.updateView();
+
+  // favoriteQuotes
+  //   .getAll()
+  //   .forEach((favoriteQuote) =>
+  //     appUI.displayFavoriteQuote({ quote: favoriteQuote })
+  //   );
 }
 
 export { initializeApp };

@@ -1,47 +1,36 @@
 import { appUI } from "../AppUI.js";
 import { favoriteQuotes } from "../storage/FavoriteQuotes.js";
 import currentQuoteManager from "../storage/CurrentQuoteManager.js";
+import { favoritesPaginator } from "./FavoritesPaginator.js";
 
 class FavoriteQuotesController {
-  constructor(appUI, favoriteQuotes, currentQuoteManager) {
+  constructor(appUI, favoriteQuotes, currentQuoteManager, favoritesPaginator) {
     this.appUI = appUI;
     this.favoriteQuotes = favoriteQuotes;
     this.currentQuoteManager = currentQuoteManager;
+    this.favoritesPaginator = favoritesPaginator;
   }
 
-  add(quote) {
-    this.favoriteQuotes.add(quote);
-
-    this.appUI.displayFavoriteQuote({ quote });
-  }
-
-  remove(quote) {
-    const quoteId = quote.id;
-
-    const cardElement = document.getElementById(`${quoteId}`);
-    cardElement && cardElement.remove();
-
-    this.favoriteQuotes.remove(quote.id);
-
+  updateViewAfterChange(quoteId) {
+    this.favoritesPaginator.updateView(true);
     this.appUI.updateStarView(
       this.favoriteQuotes.isQuoteFavorite(quoteId),
       quoteId
     );
   }
 
-  toggle() {
-    const currentQuote = this.currentQuoteManager.getCurrentQuote();
-    if (currentQuote) {
-      if (
-        !this.favoriteQuotes.isQuoteFavorite(
-          this.currentQuoteManager.getCurrentQuoteId()
-        )
-      ) {
-        this.add(currentQuote);
-      } else {
-        this.remove(currentQuote);
-      }
-    }
+  add(quote) {
+    this.favoriteQuotes.add(quote);
+
+    this.updateViewAfterChange(quote.id);
+  }
+
+  remove(quote) {
+    const quoteId = quote.id;
+
+    this.favoriteQuotes.remove(quoteId);
+
+    this.updateViewAfterChange(quoteId);
   }
 
   removeAll() {
@@ -53,13 +42,27 @@ class FavoriteQuotesController {
       this.favoriteQuotes.isQuoteFavorite(currentQuoteId),
       currentQuoteId
     );
+
+    this.favoritesPaginator.setCurrentPage(1);
+  }
+
+  toggle() {
+    const currentQuote = this.currentQuoteManager.getCurrentQuote();
+    if (currentQuote) {
+      if (!this.favoriteQuotes.isQuoteFavorite(currentQuote.id)) {
+        this.add(currentQuote);
+      } else {
+        this.remove(currentQuote);
+      }
+    }
   }
 }
 
 const favoriteQuotesController = new FavoriteQuotesController(
   appUI,
   favoriteQuotes,
-  currentQuoteManager
+  currentQuoteManager,
+  favoritesPaginator
 );
 
 export { favoriteQuotesController };
